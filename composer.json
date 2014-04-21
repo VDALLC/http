@@ -1,0 +1,20 @@
+{
+    "name": "vda/http",
+    "type": "library",
+    "description": "HTTP Support",
+    "keywords": ["http"],
+    "require": {
+        "php": ">=5.3.23",
+        "vda/util": "self.version"
+    },
+    "autoload": {
+        "psr-0": { "": "" }
+    },
+    "target-dir": "Vda/Http",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-trunk": "1-dev"
+        }
+    }
+}
