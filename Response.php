@@ -95,9 +95,19 @@ class Response implements IResponse
         return new self($body, $statusLine[1], $headers);
     }
 
+    /**
+     * Check where given code is valid HTTP status
+     *
+     * @param int $code
+     */
+    public static function isValidStatus($code)
+    {
+        return isset(self::$statusTexts[$code]);
+    }
+
     public static function getStatusLine($code)
     {
-        if (isset(self::$statusTexts[$code])) {
+        if (self::isValidStatus($code)) {
             return 'HTTP/1.1 ' . $code . ' ' . self::$statusTexts[$code];
         } else {
             throw new \InvalidArgumentException('Undefined status code: ' . $code);
