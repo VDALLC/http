@@ -81,7 +81,7 @@ class Response implements IResponse
      * @param string $str
      * @return Response
      */
-    public static function createFromString($str)
+    public static function createFromString($str, $raw = false)
     {
         list($head, $body) = preg_split('~(\r\n|\n\r|\n){2}~', $str, 2);
 
@@ -92,7 +92,25 @@ class Response implements IResponse
             list($name, $value) = preg_split('~:\s+~', $header, 2);
             $headers[$name] = $value;
         }
+
+        if (!$raw && isset($headers['Transfer-Encoding']) && $headers['Transfer-Encoding'] == 'chunked') {
+            $body = self::decodeChunked($body);
+            unset($headers['Transfer-Encoding']);
+        }
+
         return new self($body, $statusLine[1], $headers);
+    }
+
+    public static function decodeChunked($str)
+    {
+        for ($res = ''; !empty($str); $str = trim($str)) {
+            $pos = strpos($str, "\r\n");
+            $len = hexdec(substr($str, 0, $pos));
+            $res .= substr($str, $pos + 2, $len);
+            $str = substr($str, $pos + 2 + $len);
+        }
+
+        return $res;
     }
 
     /**
