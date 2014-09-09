@@ -231,6 +231,11 @@ class Request
             $this->buildBody();
         }
 
+        $len = mb_strlen($this->body, '8bit');
+        if ($len > 0) {
+            $this->headers()->set('Content-Length', $len);
+        }
+
         return $this->body;
     }
 

@@ -7,6 +7,9 @@
         "php": ">=5.3.23",
         "vda/util": "0.11.*"
     },
+    "suggest": {
+        "ext-xmlrpc": "Needed for XmlrpcClient"
+    },
     "autoload": {
         "psr-0": { "": "" }
     },
