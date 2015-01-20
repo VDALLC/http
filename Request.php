@@ -122,7 +122,7 @@ class Request
         $info = parse_url($uri);
         $this->path = isset($info['path']) ? $info['path'] : '/'; // for parse_url('?') path will not be set
         if (!empty($info['host'])) {
-            $this->headers->set('Host', $info['host']);
+            $this->headers()->set('Host', $info['host']);
         }
         if (!empty($info['query'])) {
             parse_str($info['query'], $arr);
