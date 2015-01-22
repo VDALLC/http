@@ -11,9 +11,8 @@
         "ext-xmlrpc": "Needed for XmlrpcClient"
     },
     "autoload": {
-        "psr-0": { "": "" }
+        "psr-4": { "Vda\\Http\\": "src/" }
     },
-    "target-dir": "Vda/Http",
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
