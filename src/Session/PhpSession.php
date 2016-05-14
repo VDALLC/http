@@ -23,9 +23,6 @@ class PhpSession extends AbstractParamStore implements ISession
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-//            $message = 'There should be a very important reason to append $_SESSION array, ' .
-//                'if so you can implement this and remove this Exception.';
-//            throw new \InvalidArgumentException($message);
             // for ParamStoreTest to pass
             $_SESSION[] = $value;
         } else {
