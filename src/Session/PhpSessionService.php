@@ -12,7 +12,10 @@ class PhpSessionService implements ISessionService
 
     public function open($sessionId = null)
     {
-        session_start($sessionId);
+        if (!is_null($sessionId)) {
+            session_id($sessionId);
+        }
+        session_start();
     }
 
     public function close()
