@@ -25,7 +25,7 @@ class XmlrpcClient extends HttpClient
         $body = xmlrpc_encode_request($method, array_merge($this->defaultData, $params), $rpcOptions);
         $request = Request::create($this->url, 'POST', array(), array(), array(), array(), $this->headers, $body);
         $response = $this->send($request);
-//        echo($response->getBody());die;
+
         if ($response->getStatus() != 200) {
             throw new Exception($response->getBody(), $response->getStatus());
         }

@@ -1,7 +1,7 @@
 <?php
 namespace Vda\Http;
 
-use \Vda\Util\ParamStore\ParamStore;
+use Vda\Util\ParamStore\ParamStore;
 
 class Request
 {
@@ -14,6 +14,8 @@ class Request
     private $files;
     private $headers;
     private $body;
+    private $port;
+    private $ssl;
 
     /**
      * @var string
@@ -58,7 +60,15 @@ class Request
     public static function createFromGlobals()
     {
         $info = explode('?', $_SERVER['REQUEST_URI']);
-        return new self($_SERVER['REQUEST_METHOD'], $info[0]);
+        $request = new self($_SERVER['REQUEST_METHOD'], $info[0]);
+
+        if (isset($_SERVER['SERVER_PORT'])) {
+            $request->port = $_SERVER['SERVER_PORT'];
+        }
+
+        $request->ssl = !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off';
+
+        return $request;
     }
 
     public static function restoreHeaders()
@@ -120,14 +130,45 @@ class Request
     public function setUri($uri)
     {
         $info = parse_url($uri);
+
         $this->path = isset($info['path']) ? $info['path'] : '/'; // for parse_url('?') path will not be set
+
         if (!empty($info['host'])) {
             $this->headers()->set('Host', $info['host']);
         }
+
+        if (!empty($info['port'])) {
+            $this->port = $info['port'];
+        }
+
+        if (!empty($info['scheme'])) {
+            $this->ssl = in_array(\strtolower($info['scheme']), ['https', 'ssl']);
+        }
+
         if (!empty($info['query'])) {
             parse_str($info['query'], $arr);
             $this->get()->addAll($arr);
         }
+    }
+
+    public function port()
+    {
+        return $this->port;
+    }
+
+    public function setPort($port)
+    {
+        $this->port = $port;
+    }
+
+    public function ssl()
+    {
+        return $this->ssl;
+    }
+
+    public function setSsl($ssl)
+    {
+        $this->ssl = $ssl;
     }
 
     /**

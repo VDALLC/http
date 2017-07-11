@@ -1,8 +1,6 @@
 <?php
 namespace Vda\Http;
 
-use Vda\Util\VarUtil as V;
-
 class Response implements IResponse
 {
     public static $statusTexts = array(
@@ -149,7 +147,7 @@ class Response implements IResponse
 
     public function getHeader($name, $ifNull = null)
     {
-        return V::ifNull($this->headers[$name], $ifNull);
+        return isset($this->headers[$name]) ? $this->headers[$name] : $ifNull;
     }
 
     public function setBody($body)

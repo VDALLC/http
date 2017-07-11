@@ -3,6 +3,17 @@
     "type": "library",
     "description": "HTTP Support",
     "keywords": ["http"],
+     "repositories": [
+        {
+            "type": "composer",
+            "url": "https://composer.vda-team.com/",
+            "options": {
+                "ssl": {
+                    "verify_peer": false
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.23",
         "vda/util": "0.11.*|0.12.*"
